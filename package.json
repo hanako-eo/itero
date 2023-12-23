@@ -1,0 +1,37 @@
+{
+  "name": "itero",
+  "version": "0.1.0",
+  "description": "An iterator library to reduce the execution time of sequential iterators in native javascript",
+  "type": "module",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint **/**.ts",
+    "check": "tsc --noEmit -w",
+    "clean": "rm build",
+    "build": "tsc",
+    "fix": "eslint --fix src",
+    "pretest": "npm run build",
+    "posttest": "npm run lint"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "eslint": "^8.55.0",
+    "typescript": "^5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanako-eo/itero.git"
+  },
+  "author": "Hana",
+  "bugs": {
+    "url": "https://github.com/hanako-eo/itero/issues"
+  },
+  "homepage": "https://github.com/hanako-eo/itero#readme"
+}
