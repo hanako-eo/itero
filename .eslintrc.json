@@ -9,14 +9,25 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+        "error",
+        {
+            "bracketSpacing": true,
+            "singleQuote": false,
+            "semi": false,
+            "tabWidth": 4,
+            "trailingComma": "es5",
+            "arrowParens": "avoid",
+            "embeddedLanguageFormatting": "auto"
+        }          
+    ],
     "block-scoped-var": "error",
     "eqeqeq": "error",
     "no-var": "error",
     "prefer-const": "error",
     "eol-last": "error",
     "prefer-arrow-callback": "error",
-    "no-trailing-spaces": "error",
+    "no-trailing-spaces": "warn",
     "quotes": ["warn", "double", { "avoidEscape": true }],
     "no-restricted-properties": [
       "error",
@@ -32,7 +43,7 @@
   },
   "overrides": [
     {
-      "files": ["**/*.ts", "**/*.tsx"],
+      "files": ["**/*.ts"],
       "parser": "@typescript-eslint/parser",
       "extends": [
         "plugin:@typescript-eslint/recommended"

@@ -5,7 +5,7 @@
     "allowUnusedLabels": false,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2018"],
+    "lib": ["es2018", "ES2015.Iterable"],
     "module": "Node16",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
