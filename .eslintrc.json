@@ -16,9 +16,10 @@
             "singleQuote": false,
             "semi": false,
             "tabWidth": 4,
-            "trailingComma": "es5",
+            "trailingComma": "none",
             "arrowParens": "avoid",
-            "embeddedLanguageFormatting": "auto"
+            "embeddedLanguageFormatting": "auto",
+            "printWidth": 120
         }          
     ],
     "block-scoped-var": "error",

@@ -11,7 +11,7 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --loader ts-node/esm --enable-source-maps bin/test.ts",
     "lint": "eslint **/**.ts",
     "check": "tsc --noEmit -w",
     "clean": "rm build",
@@ -22,6 +22,9 @@
     "posttest": "npm run lint"
   },
   "devDependencies": {
+    "@japa/expect": "^3.0.0-1",
+    "@japa/expect-type": "^2.0.0-1",
+    "@japa/runner": "^3.0.0-9",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "eslint": "^8.55.0",
@@ -29,6 +32,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "prettier": "^3.1.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "repository": {
