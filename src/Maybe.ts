@@ -1,4 +1,6 @@
 export default class Maybe<T> {
+    private static NONE = new Maybe<any>(undefined, false)
+
     #hasValue: boolean
     value: T | undefined
 
@@ -7,7 +9,7 @@ export default class Maybe<T> {
     }
 
     static none<T>(): Maybe<T> {
-        return new Maybe(undefined as T, false)
+        return Maybe.NONE
     }
 
     static fromIterator<T>(iteratorResult: IteratorResult<T>): Maybe<T> {
@@ -38,5 +40,10 @@ export default class Maybe<T> {
 
     isNone() {
         return !this.#hasValue
+    }
+
+    map<U>(callback: (v: T) => U): Maybe<U> {
+        if (this.isSome()) return Maybe.some(callback(this.value!))
+        return Maybe.none()
     }
 }
