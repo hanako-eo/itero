@@ -1,7 +1,7 @@
 import type { IteroIterable } from "../types.js"
 
 import Maybe from "../Maybe.js"
-import { Filter, Map, Range, Zip } from "./index.js"
+import { Chunk, ChunkExact, Filter, Map, Range, Window, Zip } from "./index.js"
 
 export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
     [Symbol.iterator](): Iterator<O> {
@@ -13,6 +13,18 @@ export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterabl
     }
 
     constructor(protected iterator: IteroIterable<I>) {}
+
+    chunk(size: number): Chunk<O> {
+        return new Chunk(this, size)
+    }
+
+    chunkExact(size: number): ChunkExact<O> {
+        return new ChunkExact(this, size)
+    }
+
+    window(size: number): Window<O> {
+        return new Window(this, size)
+    }
 
     map<U>(callback: (v: O) => U): Map<O, U> {
         return new Map(this, callback)

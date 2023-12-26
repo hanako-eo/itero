@@ -88,6 +88,43 @@ test.group("IteroIterator", () => {
             i++
         }
     })
+
+    test("chunking the iterator", ({ expect }) => {
+        const str = ["j", "a", "v", "a", "s", "c", "r", "i", "p", "t"]
+        const iter = IteroIterator.fromIterable(str)
+
+        let i = 0
+        for (const element of iter.chunk(3)) {
+            expect(element).toEqual(str.slice(3 * i, 3 * (i + 1)))
+            i++
+        }
+        expect(i).toBe(Math.ceil(str.length / 3)) // i.e. 4
+    })
+
+    test("chunking exactly the iterator", ({ expect }) => {
+        const str = ["j", "a", "v", "a", "s", "c", "r", "i", "p", "t"]
+        const iter = IteroIterator.fromIterable(str).chunkExact(3)
+
+        let i = 0
+        for (const element of iter) {
+            expect(element).toEqual(str.slice(3 * i, 3 * (i + 1)))
+            i++
+        }
+        expect(i).toBe(Math.floor(str.length / 3)) // i.e. 3
+        expect(iter.rest()).toEqual(str.slice(3 * i))
+    })
+
+    test("windowing the iterator", ({ expect }) => {
+        const str = ["j", "a", "v", "a", "s", "c", "r", "i", "p", "t"]
+        const iter = IteroIterator.fromIterable(str)
+
+        let i = 0
+        for (const element of iter.window(3)) {
+            expect(element).toEqual(str.slice(i, i + 3))
+            i++
+        }
+        expect(i).toBe(str.length - 2) // i.e. 8
+    })
 })
 
 test.group("Range", () => {
