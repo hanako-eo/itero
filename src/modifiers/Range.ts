@@ -23,6 +23,7 @@ export default class Range extends BaseIterator<number> {
         private isInclusive: boolean
     ) {
         super({
+            nth: () => Maybe.none<number>(),
             next: () => Maybe.none<number>()
         })
 

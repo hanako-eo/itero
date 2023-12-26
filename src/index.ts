@@ -10,7 +10,14 @@ export default class IteroIterator<T> extends BaseIterator<T> {
     constructor(iter: Iterable<T> | IteroIterable<T>) {
         const iterator = Symbol.iterator in iter ? iter[Symbol.iterator]() : iter
         super({
-            next() {
+            nth(n: number): Maybe<T> {
+                for (let i = 0; i < n - 1; i++) {
+                    const e = this.next()
+                    if (e.isNone()) return Maybe.none()
+                }
+                return this.next()
+            },
+            next(): Maybe<T> {
                 const element = iterator.next()
                 if (element instanceof Maybe) return element
                 return Maybe.fromIterator(element)

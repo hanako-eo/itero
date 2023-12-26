@@ -1,7 +1,7 @@
 import type { IteroIterable } from "../types.js"
 
 import Maybe from "../Maybe.js"
-import { Chunk, ChunkExact, Filter, Map, Range, Window, Zip } from "./index.js"
+import { Chunk, ChunkExact, Filter, Map, Range, StepBy, Window, Zip } from "./index.js"
 
 export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
     [Symbol.iterator](): Iterator<O> {
@@ -40,6 +40,18 @@ export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterabl
 
     enumerate(): Zip<number, O> {
         return Range.from(0).zip(this)
+    }
+
+    stepBy(n: number): StepBy<O> {
+        return new StepBy(this, n)
+    }
+
+    nth(n: number): Maybe<O> {
+        for (let i = 0; i < n - 1; i++) {
+            const e = this.next()
+            if (e.isNone()) return Maybe.none()
+        }
+        return this.next()
     }
 
     next(): Maybe<O> {

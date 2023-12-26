@@ -13,7 +13,7 @@ test.group("IteroIterator", () => {
         }
     })
 
-    test("map on the iterator", ({ expect }) => {
+    test("map through iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
         const iter = IteroIterator.fromIterable(array)
 
@@ -24,7 +24,7 @@ test.group("IteroIterator", () => {
         }
     })
 
-    test("filter odd number on the iterator", ({ expect }) => {
+    test("filter odd number through iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
         const iter = IteroIterator.fromIterable(array)
 
@@ -77,7 +77,7 @@ test.group("IteroIterator", () => {
         expect(i).toBe(4)
     })
 
-    test("enumerate on the iterator", ({ expect }) => {
+    test("enumerate through iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
         const iter = IteroIterator.fromIterable(array)
 
@@ -124,6 +124,18 @@ test.group("IteroIterator", () => {
             i++
         }
         expect(i).toBe(str.length - 2) // i.e. 8
+    })
+
+    test("iterate through the iterator with a step of 2", ({ expect }) => {
+        const array = [0, 1, 2, 3]
+        const iter = IteroIterator.fromIterable(array)
+
+        let i = 0
+        for (const element of iter.stepBy(2)) {
+            expect(element).toBe(array[2 * i])
+            i++
+        }
+        expect(i).toBe(array.length / 2)
     })
 })
 
