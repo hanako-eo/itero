@@ -3,7 +3,7 @@ import type { IteroIterable } from "../types.js"
 import Maybe from "../Maybe.js"
 import { Chunk, ChunkExact, Filter, Fuse, Map, Peekable, Range, StepBy, Window, Zip } from "./index.js"
 
-export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
+export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
     [Symbol.iterator](): Iterator<O> {
         return {
             next: () => {
@@ -60,9 +60,7 @@ export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterabl
         return this.next()
     }
 
-    next(): Maybe<O> {
-        throw new Error("unimplementade next function, please implement it")
-    }
+    abstract next(): Maybe<O>
 }
 
 export const NoopIterator: IteroIterable<never> = {
