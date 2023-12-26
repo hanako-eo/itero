@@ -46,4 +46,18 @@ export default class Maybe<T> {
         if (this.isSome()) return Maybe.some(callback(this.value!))
         return Maybe.none()
     }
+
+    take(): Maybe<T> {
+        if (this.isSome()) {
+            const value = this.value
+
+            // transform Maybe.some into Maybe.none
+            this.#hasValue = false
+            this.value = undefined
+
+            return Maybe.some(value!)
+        }
+
+        return Maybe.none()
+    }
 }

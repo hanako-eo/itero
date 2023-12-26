@@ -1,7 +1,7 @@
 import type { IteroIterable } from "../types.js"
 
 import Maybe from "../Maybe.js"
-import { Chunk, ChunkExact, Filter, Fuse, Map, Range, StepBy, Window, Zip } from "./index.js"
+import { Chunk, ChunkExact, Filter, Fuse, Map, Peekable, Range, StepBy, Window, Zip } from "./index.js"
 
 export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
     [Symbol.iterator](): Iterator<O> {
@@ -48,6 +48,10 @@ export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterabl
 
     fuse(): Fuse<O> {
         return new Fuse(this)
+    }
+
+    peekable(): Peekable<O> {
+        return new Peekable(this)
     }
 
     nth(n: number): Maybe<O> {
