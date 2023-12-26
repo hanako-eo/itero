@@ -4,10 +4,10 @@ import { BaseIterator } from "./index.js"
 
 export default class StepBy<T> extends BaseIterator<T> {
     constructor(
-        iterator: IteroIterable<T>,
+        private iterator: IteroIterable<T>,
         private _step: number
     ) {
-        super(iterator)
+        super()
     }
 
     step() {

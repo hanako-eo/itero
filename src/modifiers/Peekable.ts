@@ -1,8 +1,13 @@
 import Maybe from "../Maybe.js"
+import { IteroIterable } from "../types.js"
 import { BaseIterator } from "./index.js"
 
 export default class Peekable<T> extends BaseIterator<T> {
     private peeked: Maybe<T> = Maybe.none()
+
+    constructor(private iterator: IteroIterable<T>) {
+        super()
+    }
 
     peek(): Maybe<T> {
         if (this.peeked.isNone()) this.peeked = this.iterator.next()

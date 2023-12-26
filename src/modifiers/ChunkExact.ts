@@ -6,10 +6,10 @@ export default class ChunkExact<T> extends BaseIterator<T, Array<T>> {
     private slice: Array<T> = []
 
     constructor(
-        iterator: IteroIterable<T>,
+        private iterator: IteroIterable<T>,
         private _size: number
     ) {
-        super(iterator)
+        super()
     }
 
     size() {

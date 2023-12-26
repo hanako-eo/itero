@@ -3,11 +3,11 @@ import BaseIterator from "./BaseIterator.js"
 import Maybe from "../Maybe.js"
 
 export default class Filter<T> extends BaseIterator<T> {
-    private predicate: (v: T) => boolean
-
-    constructor(iterator: IteroIterable<T>, predicate: (v: T) => boolean) {
-        super(iterator)
-        this.predicate = predicate
+    constructor(
+        private iterator: IteroIterable<T>,
+        private predicate: (v: T) => boolean
+    ) {
+        super()
     }
 
     next(): Maybe<T> {

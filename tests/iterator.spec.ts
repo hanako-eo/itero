@@ -3,6 +3,12 @@ import IteroIterator, { BaseIterator, Maybe, Range } from "../src/index.js"
 import { NoopIterator } from "../src/modifiers/index.js"
 
 test.group("IteroIterator", () => {
+    test("noop", ({ expect }) => {
+        const iter = NoopIterator
+
+        expect(iter.next()).toEqual(Maybe.none())
+        expect(iter.next()).toEqual(Maybe.none())
+    })
     test("transform array into Iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
         const iter = IteroIterator.fromIterable(array)
@@ -143,7 +149,7 @@ test.group("IteroIterator", () => {
         class Alternate extends BaseIterator<number> {
             i = 0
             constructor() {
-                super(NoopIterator)
+                super()
             }
             next(): Maybe<number> {
                 const value: Maybe<number> = this.i % 2 === 0 ? Maybe.some(this.i) : Maybe.none()

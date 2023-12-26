@@ -5,8 +5,8 @@ import { BaseIterator } from "./index.js"
 export default class Fuse<T> extends BaseIterator<T> {
     private fused: boolean
 
-    constructor(iterator: IteroIterable<T>) {
-        super(iterator)
+    constructor(private iterator: IteroIterable<T>) {
+        super()
         this.fused = false
     }
 

@@ -12,8 +12,6 @@ export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterabl
         }
     }
 
-    constructor(protected iterator: IteroIterable<I>) {}
-
     chunk(size: number): Chunk<O> {
         return new Chunk(this, size)
     }
