@@ -17,7 +17,7 @@
             "semi": false,
             "tabWidth": 4,
             "trailingComma": "none",
-            "arrowParens": "avoid",
+            "arrowParens": "always",
             "embeddedLanguageFormatting": "auto",
             "printWidth": 120
         }          

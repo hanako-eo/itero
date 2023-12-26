@@ -12,13 +12,14 @@
   "keywords": [],
   "scripts": {
     "test": "node --loader ts-node/esm --enable-source-maps bin/test.ts",
-    "lint": "eslint **/**.ts",
-    "check": "tsc --noEmit -w",
+    "lint": "eslint src/**/**.ts",
+    "check-watch": "tsc --noEmit -w",
+    "check": "tsc --noEmit",
     "clean": "rm build",
     "dev": "tsc -w",
     "build": "tsc",
     "fix": "eslint --fix src",
-    "pretest": "npm run build",
+    "pretest": "npm run check",
     "posttest": "npm run lint"
   },
   "devDependencies": {

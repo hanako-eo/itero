@@ -18,7 +18,7 @@ test.group("IteroIterator", () => {
         const iter = IteroIterator.fromIterable(array)
 
         let i = 0
-        for (const element of iter.map(x => x + 1)) {
+        for (const element of iter.map((x) => x + 1)) {
             expect(element).toBe(array[i] + 1)
             i++
         }
@@ -29,7 +29,7 @@ test.group("IteroIterator", () => {
         const iter = IteroIterator.fromIterable(array)
 
         let i = 0
-        for (const element of iter.filter(x => x % 2 === 0)) {
+        for (const element of iter.filter((x) => x % 2 === 0)) {
             expect(element).toBe(array[i])
             i += 2
         }
