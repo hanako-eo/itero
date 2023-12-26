@@ -1,5 +1,6 @@
 import { test } from "@japa/runner"
-import IteroIterator, { Range } from "../src/index.js"
+import IteroIterator, { BaseIterator, Maybe, Range } from "../src/index.js"
+import { NoopIterator } from "../src/modifiers/index.js"
 
 test.group("IteroIterator", () => {
     test("transform array into Iterator", ({ expect }) => {
@@ -136,6 +137,32 @@ test.group("IteroIterator", () => {
             i++
         }
         expect(i).toBe(array.length / 2)
+    })
+
+    test("fusing the iterator", ({ expect }) => {
+        class Alternate extends BaseIterator<number> {
+            i = 0
+            constructor() {
+                super(NoopIterator)
+            }
+            next(): Maybe<number> {
+                const value: Maybe<number> = this.i % 2 === 0 ? Maybe.some(this.i) : Maybe.none()
+                this.i++
+                return value
+            }
+        }
+        const iter = new Alternate()
+
+        expect(iter.next()).toEqual(Maybe.some(0))
+        expect(iter.next()).toEqual(Maybe.none())
+        expect(iter.next()).toEqual(Maybe.some(2))
+        expect(iter.next()).toEqual(Maybe.none())
+
+        const fusedIter = iter.fuse()
+        expect(fusedIter.next()).toEqual(Maybe.some(4))
+        expect(fusedIter.next()).toEqual(Maybe.none())
+        expect(fusedIter.next()).toEqual(Maybe.none())
+        expect(fusedIter.next()).toEqual(Maybe.none())
     })
 })
 
