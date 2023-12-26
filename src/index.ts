@@ -1,5 +1,5 @@
 import type { IteroIterable } from "./types.js"
-import { BaseIterator, Range } from "./modifiers/index.js"
+import { BaseIterator, NoopIterator, Range } from "./modifiers/index.js"
 import Maybe from "./Maybe.js"
 
 export default class IteroIterator<T> extends BaseIterator<T> {
@@ -31,4 +31,4 @@ export default class IteroIterator<T> extends BaseIterator<T> {
 }
 
 export type * from "./types.js"
-export { BaseIterator, Range, Maybe }
+export { BaseIterator, NoopIterator, Range, Maybe }

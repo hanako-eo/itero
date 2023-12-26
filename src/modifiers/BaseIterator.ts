@@ -58,3 +58,8 @@ export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterabl
         throw new Error("unimplementade next function, please implement it")
     }
 }
+
+export const NoopIterator: IteroIterable<never> = {
+    nth: Maybe.none<never>,
+    next: Maybe.none<never>
+}

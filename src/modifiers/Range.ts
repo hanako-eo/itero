@@ -1,4 +1,4 @@
-import { BaseIterator } from "../index.js"
+import { BaseIterator, NoopIterator } from "./index.js"
 import Maybe from "../Maybe.js"
 
 export default class Range extends BaseIterator<number> {
@@ -22,10 +22,7 @@ export default class Range extends BaseIterator<number> {
         public step: number,
         private isInclusive: boolean
     ) {
-        super({
-            nth: () => Maybe.none<number>(),
-            next: () => Maybe.none<number>()
-        })
+        super(NoopIterator)
 
         this.i = start_edge
     }
