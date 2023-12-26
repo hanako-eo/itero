@@ -1,12 +1,9 @@
-import type { IteroIterable } from "./types.js"
-import Maybe from "./Maybe.js"
+import type { IteroIterable } from "../types.js"
 
-import Map from "./Map.js"
-import Filter from "./Filter.js"
-import Zip from "./Zip.js"
-import Range from "./Range.js"
+import Maybe from "../Maybe.js"
+import { Filter, Map, Range, Zip } from "./index.js"
 
-export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
+export default class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
     [Symbol.iterator](): Iterator<O> {
         return {
             next: () => {

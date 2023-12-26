@@ -1,6 +1,6 @@
-import type { IteroIterable } from "./types.js"
+import type { IteroIterable } from "../types.js"
 import BaseIterator from "./BaseIterator.js"
-import Maybe from "./Maybe.js"
+import Maybe from "../Maybe.js"
 
 export default class Filter<T> extends BaseIterator<T> {
     private predicate: (v: T) => boolean

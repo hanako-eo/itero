@@ -1,17 +1,10 @@
 import type { IteroIterable } from "./types.js"
+import { BaseIterator, Range } from "./modifiers/index.js"
 import Maybe from "./Maybe.js"
-import BaseIterator from "./BaseIterator.js"
-import Range from "./Range.js"
 
 export default class IteroIterator<T> extends BaseIterator<T> {
     static fromIterable<T>(iter: Iterable<T> | IteroIterable<T>): IteroIterator<T> {
         return new IteroIterator(iter)
-    }
-
-    [Symbol.iterator](): Iterator<T> {
-        return {
-            next: () => this.next().toIterator()
-        }
     }
 
     constructor(iter: Iterable<T> | IteroIterable<T>) {
