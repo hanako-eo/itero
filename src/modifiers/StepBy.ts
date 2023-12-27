@@ -27,4 +27,8 @@ export default class StepBy<T> extends BaseIterator<T> {
         }
         return element
     }
+
+    clone(): StepBy<T> {
+        return new StepBy(this.iterator.clone(), this._step)
+    }
 }

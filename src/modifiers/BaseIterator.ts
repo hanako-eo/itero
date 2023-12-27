@@ -99,10 +99,12 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
     }
 
     abstract next(): Maybe<O>
+    abstract clone(): BaseIterator<I, O>
 }
 
 export const NoopIterator: IteroIterable<never> = {
     nth: Maybe.none<never>,
     next: Maybe.none<never>,
+    clone: () => NoopIterator,
     potentialSize: () => 0
 }

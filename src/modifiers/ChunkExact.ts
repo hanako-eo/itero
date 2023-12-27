@@ -40,4 +40,8 @@ export default class ChunkExact<T> extends BaseIterator<T, Array<T>> {
 
         return Maybe.some(this.slice)
     }
+
+    clone(): ChunkExact<T> {
+        return new ChunkExact(this.iterator.clone(), this._size)
+    }
 }

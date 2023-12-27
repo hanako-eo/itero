@@ -158,6 +158,9 @@ test.group("IteroIterator", () => {
                 this.i++
                 return value
             }
+            clone(): Alternate {
+                return new Alternate()
+            }
         }
         const iter = new Alternate()
 
@@ -246,6 +249,20 @@ test.group("IteroIterator", () => {
         expect(iter.next()).toEqual(Maybe.some(4))
         expect(iter.peek()).toEqual(Maybe.none())
         expect(iter.next()).toEqual(Maybe.none())
+    })
+
+    test("clonable iterator", ({ expect }) => {
+        const array = [1, 2, 3, 4]
+        const iter = new ArrayLikeIterator(array)
+
+        expect(iter.next()).toEqual(Maybe.some(1))
+        expect(iter.next()).toEqual(Maybe.some(2))
+
+        const clonedIter = iter.clone()
+        expect(iter.next()).toEqual(Maybe.some(3))
+        expect(clonedIter.next()).toEqual(Maybe.some(1))
+        expect(clonedIter.next()).toEqual(Maybe.some(2))
+        expect(iter.next()).toEqual(Maybe.some(4))
     })
 })
 

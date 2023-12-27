@@ -24,4 +24,8 @@ export default class Zip<T1, T2> extends BaseIterator<T1, [T1, T2]> {
 
         return Maybe.some([element1.value!, element2.value!] as const)
     }
+
+    clone(): Zip<T1, T2> {
+        return new Zip(this.iterator1.clone(), this.iterator2.clone())
+    }
 }

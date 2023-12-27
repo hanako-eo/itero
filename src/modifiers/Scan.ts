@@ -3,12 +3,16 @@ import { IteroIterable } from "../types.js"
 import { BaseIterator } from "./index.js"
 
 export default class Scan<A, I, O = I> extends BaseIterator<I, O> {
+    private accumulator: A
+
     constructor(
         private iterator: IteroIterable<I>,
-        private accumulator: A,
+        private initialAccumulator: A,
         private callback: (accumulator: A, value: I) => [A, Maybe<O>]
     ) {
         super()
+
+        this.accumulator = initialAccumulator
     }
 
     potentialSize(): number {
@@ -27,5 +31,9 @@ export default class Scan<A, I, O = I> extends BaseIterator<I, O> {
         this.accumulator = accumulator
 
         return scanned
+    }
+
+    clone(): Scan<A, I, O> {
+        return new Scan(this.iterator.clone(), this.initialAccumulator, this.callback)
     }
 }

@@ -31,4 +31,8 @@ export default class Window<T> extends BaseIterator<T, Array<T>> {
 
         return Maybe.some(this.slice)
     }
+
+    clone(): Window<T> {
+        return new Window(this.iterator.clone(), this._size)
+    }
 }

@@ -34,4 +34,8 @@ export default class Chunk<T> extends BaseIterator<T, Array<T>> {
         if (this.slice.length === 0) return Maybe.none()
         return Maybe.some(this.slice)
     }
+
+    clone(): Chunk<T> {
+        return new Chunk(this.iterator.clone(), this._size)
+    }
 }

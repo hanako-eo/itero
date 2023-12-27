@@ -22,4 +22,8 @@ export default class Fuse<T> extends BaseIterator<T> {
 
         return element
     }
+
+    clone(): Fuse<T> {
+        return new Fuse(this.iterator.clone())
+    }
 }

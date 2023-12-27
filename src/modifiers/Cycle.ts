@@ -4,9 +4,10 @@ import { BaseIterator } from "./index.js"
 
 export default class Cycle<T> extends BaseIterator<T> {
     #cycle: Array<Maybe<T>> = []
+    private consumed = false
     private i = 0
 
-    constructor(private iterator: IteroIterable<T> | null) {
+    constructor(private iterator: IteroIterable<T>) {
         super()
     }
 
@@ -17,18 +18,22 @@ export default class Cycle<T> extends BaseIterator<T> {
     next(): Maybe<T> {
         let element = Maybe.none<T>()
 
-        if (this.iterator !== null) {
+        if (!this.consumed) {
             element = this.iterator.next()
 
             if (element.isSome()) this.#cycle.push(element)
-            else this.iterator = null
+            else this.consumed = true
         }
 
-        if (this.iterator === null && this.#cycle.length > 0) {
+        if (this.consumed && this.#cycle.length > 0) {
             element = this.#cycle[this.i]
             this.i = (this.i + 1) % this.#cycle.length
         }
 
         return element
+    }
+
+    clone(): Cycle<T> {
+        return new Cycle(this.iterator.clone())
     }
 }

@@ -2,6 +2,7 @@ import type { IteroIterable } from "./types.js"
 import { BaseIterator, NoopIterator, Range } from "./modifiers/index.js"
 import Maybe from "./Maybe.js"
 
+// TODO: remove
 export default class IteroIterator<T> extends BaseIterator<T> {
     private iterator: IteroIterable<T> | Iterator<T>
 
@@ -18,6 +19,10 @@ export default class IteroIterator<T> extends BaseIterator<T> {
         const element = this.iterator.next()
         if (element instanceof Maybe) return element
         return Maybe.fromIterator(element)
+    }
+
+    clone(): BaseIterator<T, T> {
+        return new IteroIterator(this)
     }
 }
 

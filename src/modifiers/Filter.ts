@@ -22,4 +22,8 @@ export default class Filter<T> extends BaseIterator<T> {
 
         return this.next()
     }
+
+    clone(): Filter<T> {
+        return new Filter(this.iterator.clone(), this.predicate)
+    }
 }

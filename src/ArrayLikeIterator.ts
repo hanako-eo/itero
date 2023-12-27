@@ -20,4 +20,8 @@ export default class ArrayLikeIterator<T> extends BaseIterator<T> {
         if (this.base.length <= this.index) return Maybe.none()
         return Maybe.some(this.base[this.index++])
     }
+
+    clone(): ArrayLikeIterator<T> {
+        return new ArrayLikeIterator(this.base)
+    }
 }

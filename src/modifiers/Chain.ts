@@ -30,4 +30,8 @@ export default class Chain<T> extends BaseIterator<T> {
         }
         return element
     }
+
+    clone(): Chain<T> {
+        return new Chain(this.iterator1.clone(), this.iterator2.clone())
+    }
 }

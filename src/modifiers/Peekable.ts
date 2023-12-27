@@ -24,4 +24,8 @@ export default class Peekable<T> extends BaseIterator<T> {
 
         return element
     }
+
+    clone(): Peekable<T> {
+        return new Peekable(this.iterator.clone())
+    }
 }
