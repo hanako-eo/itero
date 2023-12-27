@@ -230,6 +230,22 @@ test.group("IteroIterator", () => {
         expect(iter.next()).toEqual(Maybe.none())
         expect(iter.accumulated()).toBe(24)
     })
+
+    test("peekable iterator", ({ expect }) => {
+        const array = [1, 2, 3, 4]
+        const iter = IteroIterator.fromIterable(array).peekable()
+
+        expect(iter.peek()).toEqual(Maybe.some(1))
+        expect(iter.peek()).toEqual(Maybe.some(1))
+        expect(iter.next()).toEqual(Maybe.some(1))
+        expect(iter.peek()).toEqual(Maybe.some(2))
+        expect(iter.next()).toEqual(Maybe.some(2))
+        expect(iter.next()).toEqual(Maybe.some(3))
+        expect(iter.peek()).toEqual(Maybe.some(4))
+        expect(iter.next()).toEqual(Maybe.some(4))
+        expect(iter.peek()).toEqual(Maybe.none())
+        expect(iter.next()).toEqual(Maybe.none())
+    })
 })
 
 test.group("Range", () => {
