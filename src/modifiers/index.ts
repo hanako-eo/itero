@@ -7,8 +7,24 @@ import Fuse from "./Fuse.js"
 import Map from "./Map.js"
 import Peekable from "./Peekable.js"
 import Range from "./Range.js"
+import Scan from "./Scan.js"
 import StepBy from "./StepBy.js"
 import Window from "./Window.js"
 import Zip from "./Zip.js"
 
-export { BaseIterator, NoopIterator, Chunk, ChunkExact, Cycle, Filter, Fuse, Map, Peekable, Range, StepBy, Window, Zip }
+export {
+    BaseIterator,
+    NoopIterator,
+    Chunk,
+    ChunkExact,
+    Cycle,
+    Filter,
+    Fuse,
+    Map,
+    Peekable,
+    Range,
+    Scan,
+    StepBy,
+    Window,
+    Zip
+}

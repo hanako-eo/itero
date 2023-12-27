@@ -185,6 +185,34 @@ test.group("IteroIterator", () => {
         expect(iter.next()).toEqual(Maybe.some(1))
         expect(iter.next()).toEqual(Maybe.some(2))
     })
+
+    test("scan the iterator", ({ expect }) => {
+        const array = [1, 2, 3, 4]
+        const iter = IteroIterator.fromIterable(array).scan(1, (acc, x) => {
+            acc *= x
+
+            // ... and terminate if the state exceeds 6
+            if (acc > 6) return [acc, Maybe.none()]
+
+            // ... else yield the negation of the state
+            return [acc, Maybe.some(-acc)]
+        })
+
+        expect(iter.next()).toEqual(Maybe.some(-1))
+        expect(iter.accumulated()).toBe(1)
+
+        expect(iter.next()).toEqual(Maybe.some(-2))
+        expect(iter.accumulated()).toBe(2)
+
+        expect(iter.next()).toEqual(Maybe.some(-6))
+        expect(iter.accumulated()).toBe(6)
+
+        expect(iter.next()).toEqual(Maybe.none())
+        expect(iter.accumulated()).toBe(24)
+
+        expect(iter.next()).toEqual(Maybe.none())
+        expect(iter.accumulated()).toBe(24)
+    })
 })
 
 test.group("Range", () => {

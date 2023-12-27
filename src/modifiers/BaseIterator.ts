@@ -1,7 +1,7 @@
 import type { IteroIterable } from "../types.js"
 
 import Maybe from "../Maybe.js"
-import { Chunk, ChunkExact, Cycle, Filter, Fuse, Map, Peekable, Range, StepBy, Window, Zip } from "./index.js"
+import { Chunk, ChunkExact, Cycle, Filter, Fuse, Map, Peekable, Range, Scan, StepBy, Window, Zip } from "./index.js"
 
 export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
     [Symbol.iterator](): Iterator<O> {
@@ -54,6 +54,10 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
 
     cycle(): Cycle<O> {
         return new Cycle(this)
+    }
+
+    scan<A, U>(accumulator: A, callback: (accumulator: A, value: O) => [A, Maybe<U>]): Scan<A, O, U> {
+        return new Scan(this, accumulator, callback)
     }
 
     nth(n: number): Maybe<O> {
