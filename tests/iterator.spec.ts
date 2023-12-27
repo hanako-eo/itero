@@ -1,6 +1,7 @@
 import { test } from "@japa/runner"
 import IteroIterator, { BaseIterator, Maybe, Range } from "../src/index.js"
 import { NoopIterator } from "../src/modifiers/index.js"
+import ArrayIterator from "../src/ArrayIterator.js"
 
 test.group("IteroIterator", () => {
     test("noop", ({ expect }) => {
@@ -275,4 +276,15 @@ test.group("Range", () => {
         expect(range.end()).toBe(10)
         expect(range.step).toBe(1)
     })
+})
+
+test("ArrayIterator", ({ expect }) => {
+    const a = [1, 2, 3, 4]
+    const iter = new ArrayIterator(a)
+
+    let i = 0
+    for (const element of iter) {
+        expect(element).toBe(a[i])
+        i++
+    }
 })
