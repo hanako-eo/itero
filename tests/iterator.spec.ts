@@ -9,6 +9,7 @@ test.group("IteroIterator", () => {
         expect(iter.next()).toEqual(Maybe.none())
         expect(iter.next()).toEqual(Maybe.none())
     })
+
     test("transform array into Iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
         const iter = IteroIterator.fromIterable(array)
@@ -169,6 +170,20 @@ test.group("IteroIterator", () => {
         expect(fusedIter.next()).toEqual(Maybe.none())
         expect(fusedIter.next()).toEqual(Maybe.none())
         expect(fusedIter.next()).toEqual(Maybe.none())
+    })
+
+    test("make cycle through the iterator", ({ expect }) => {
+        const array = [0, 1, 2]
+        const iter = IteroIterator.fromIterable(array).cycle()
+
+        // cycle 0
+        expect(iter.next()).toEqual(Maybe.some(0))
+        expect(iter.next()).toEqual(Maybe.some(1))
+        expect(iter.next()).toEqual(Maybe.some(2))
+        // cycle 1
+        expect(iter.next()).toEqual(Maybe.some(0))
+        expect(iter.next()).toEqual(Maybe.some(1))
+        expect(iter.next()).toEqual(Maybe.some(2))
     })
 })
 
