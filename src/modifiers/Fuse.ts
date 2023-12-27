@@ -10,6 +10,10 @@ export default class Fuse<T> extends BaseIterator<T> {
         this.fused = false
     }
 
+    potentialSize(): number {
+        return this.iterator.potentialSize?.() ?? -1
+    }
+
     next(): Maybe<T> {
         if (this.fused) return Maybe.none()
 

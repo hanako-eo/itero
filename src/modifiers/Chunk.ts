@@ -12,6 +12,12 @@ export default class Chunk<T> extends BaseIterator<T, Array<T>> {
         super()
     }
 
+    potentialSize(): number {
+        const parentPotentialSize = this.iterator.potentialSize?.() ?? -1
+        if (parentPotentialSize === -1) return -1
+        return Math.ceil(parentPotentialSize / this._size)
+    }
+
     size() {
         return this._size
     }

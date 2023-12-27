@@ -9,6 +9,10 @@ export default class Peekable<T> extends BaseIterator<T> {
         super()
     }
 
+    potentialSize(): number {
+        return this.iterator.potentialSize?.() ?? -1
+    }
+
     peek(): Maybe<T> {
         if (this.peeked.isNone()) this.peeked = this.iterator.next()
 

@@ -10,6 +10,12 @@ export default class StepBy<T> extends BaseIterator<T> {
         super()
     }
 
+    potentialSize(): number {
+        const parentPotentialSize = this.iterator.potentialSize?.() ?? -1
+        if (parentPotentialSize === -1) return -1
+        return Math.floor(parentPotentialSize / this._step)
+    }
+
     step() {
         return this._step
     }

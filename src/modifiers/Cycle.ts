@@ -10,6 +10,10 @@ export default class Cycle<T> extends BaseIterator<T> {
         super()
     }
 
+    potentialSize(): number {
+        return Infinity
+    }
+
     next(): Maybe<T> {
         let element = Maybe.none<T>()
 

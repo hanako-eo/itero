@@ -10,6 +10,10 @@ export default class Filter<T> extends BaseIterator<T> {
         super()
     }
 
+    potentialSize(): number {
+        return this.iterator.potentialSize?.() ?? -1
+    }
+
     next(): Maybe<T> {
         const element = this.iterator.next()
         if (element.isNone()) return Maybe.none()

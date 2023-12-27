@@ -10,6 +10,10 @@ export default class Map<T, U> extends BaseIterator<T, U> {
         super()
     }
 
+    potentialSize(): number {
+        return this.iterator.potentialSize?.() ?? -1
+    }
+
     next(): Maybe<U> {
         return this.iterator.next().map(this.callback)
     }

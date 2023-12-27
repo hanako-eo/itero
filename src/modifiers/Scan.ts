@@ -11,6 +11,10 @@ export default class Scan<A, I, O = I> extends BaseIterator<I, O> {
         super()
     }
 
+    potentialSize(): number {
+        return this.iterator.potentialSize?.() ?? -1
+    }
+
     accumulated() {
         return this.accumulator
     }

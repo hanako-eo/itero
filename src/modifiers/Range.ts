@@ -27,6 +27,10 @@ export default class Range extends BaseIterator<number> {
         this.i = start_edge
     }
 
+    potentialSize(): number {
+        return Math.floor((this.end_edge - this.start_edge) / this.step)
+    }
+
     start() {
         return this.start_edge
     }

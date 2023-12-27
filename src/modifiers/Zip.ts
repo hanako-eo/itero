@@ -10,6 +10,12 @@ export default class Zip<T1, T2> extends BaseIterator<T1, [T1, T2]> {
         super()
     }
 
+    potentialSize(): number {
+        const potentialSize1 = this.iterator1.potentialSize?.() ?? -1
+        const potentialSize2 = this.iterator2.potentialSize?.() ?? -1
+        return Math.min(potentialSize1, potentialSize2)
+    }
+
     next(): Maybe<[T1, T2]> {
         const element1 = this.iterator1.next()
         const element2 = this.iterator2.next()

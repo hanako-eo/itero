@@ -12,6 +12,10 @@ export default class Window<T> extends BaseIterator<T, Array<T>> {
         super()
     }
 
+    potentialSize(): number {
+        return this.iterator.potentialSize?.() ?? -1
+    }
+
     size() {
         return this._size
     }

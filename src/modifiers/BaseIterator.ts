@@ -12,6 +12,13 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
         }
     }
 
+    // give a potential size of the iterator, if the function return -1,
+    // it's impossible to know the size, if it's potential it's because
+    // the first `Maybe.none` can be call before or after n
+    potentialSize(): number {
+        return -1
+    }
+
     chunk(size: number): Chunk<O> {
         return new Chunk(this, size)
     }
@@ -73,5 +80,6 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
 
 export const NoopIterator: IteroIterable<never> = {
     nth: Maybe.none<never>,
-    next: Maybe.none<never>
+    next: Maybe.none<never>,
+    potentialSize: () => 0
 }
