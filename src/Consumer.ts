@@ -4,7 +4,44 @@ import { IteroIterable } from "./types.js"
 export default class Consumer<T> {
     constructor(private iterator: IteroIterable<T>) {}
 
-    // TODO: first, last, find
+    first(): Maybe<T> {
+        return this.iterator.next()
+    }
+
+    last(): Maybe<T> {
+        let element = this.iterator.next()
+        let last = element
+
+        while (element.isSome()) {
+            last = element
+            element = this.iterator.next()
+        }
+
+        return last
+    }
+
+    firstAndLast(): [Maybe<T>, Maybe<T>] {
+        const first = this.iterator.next()
+        let element = first
+        let last = first
+
+        while (element.isSome()) {
+            last = element
+            element = this.iterator.next()
+        }
+
+        return [first, last]
+    }
+
+    find(predicate: (v: T) => boolean): Maybe<T> {
+        let element = this.iterator.next()
+
+        while (element.isSome() && !predicate(element.value!)) {
+            element = this.iterator.next()
+        }
+
+        return element
+    }
 
     sum(): Maybe<T> {
         return this.reduce((a: any, b: any) => (a + b) as any)

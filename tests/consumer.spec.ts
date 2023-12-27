@@ -59,9 +59,58 @@ test.group("Consumer", () => {
         expect(range.consume().sum()).toEqual(Maybe.some(10))
     })
 
+    test("sum a consume from stringify range", ({ expect }) => {
+        const range = Range.inclusive(1, 5).map((x) => x.toString())
+
+        expect(range.consume().sum()).toEqual(Maybe.some("12345"))
+    })
+
     test("sum a consume from bigint range", ({ expect }) => {
         const range = Range.exclusive(1, 5).map(BigInt)
 
-        expect(range.consume().sum()).toEqual(Maybe.some(10n))
+        // I need to transform bigint in number because I have the error "undefined: undefined"
+        expect(range.consume().sum().map(Number)).toEqual(Maybe.some(10))
+    })
+
+    test("consume and get the first element", ({ expect }) => {
+        const range = Range.exclusive(1, 5)
+
+        expect(range.consume().first()).toEqual(Maybe.some(1))
+    })
+
+    test("consume and get the last element", ({ expect }) => {
+        const range = Range.exclusive(1, 5)
+
+        expect(range.consume().last()).toEqual(Maybe.some(4))
+    })
+
+    test("consume and get the first and last elements", ({ expect }) => {
+        const range = Range.exclusive(1, 5)
+
+        expect(range.consume().firstAndLast()).toEqual([Maybe.some(1), Maybe.some(4)])
+    })
+
+    test("consume and get the first and last elements on a range of 1 element (incorrectly)", ({ expect }) => {
+        const range = Range.inclusive(1, 1)
+
+        expect([range.consume().first(), range.consume().last()]).toEqual([Maybe.some(1), Maybe.none()])
+    })
+
+    test("consume and get the first and last elements on a range of 1 element (correctly)", ({ expect }) => {
+        const range = Range.inclusive(1, 1)
+
+        expect(range.consume().firstAndLast()).toEqual([Maybe.some(1), Maybe.some(1)])
+    })
+
+    test("consume and get the first even number", ({ expect }) => {
+        const range = Range.inclusive(1, 3)
+
+        expect(range.consume().find((x) => x % 2 === 0)).toEqual(Maybe.some(2))
+    })
+
+    test("consume and get the first even number and fail", ({ expect }) => {
+        const range = Range.inclusive(1, 1)
+
+        expect(range.consume().find((x) => x % 2 === 0)).toEqual(Maybe.none())
     })
 })
