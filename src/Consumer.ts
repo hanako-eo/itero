@@ -43,6 +43,14 @@ export default class Consumer<T> {
         return element
     }
 
+    count(): number {
+        let len = 0
+        while (this.iterator.next().isSome()) {
+            len++
+        }
+        return len
+    }
+
     sum(): Maybe<T> {
         return this.reduce((a: any, b: any) => (a + b) as any)
     }

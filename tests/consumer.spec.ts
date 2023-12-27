@@ -113,4 +113,10 @@ test.group("Consumer", () => {
 
         expect(range.consume().find((x) => x % 2 === 0)).toEqual(Maybe.none())
     })
+
+    test("consume and count", ({ expect }) => {
+        const range = Range.inclusive(1, 5)
+
+        expect(range.consume().count()).toBe(5)
+    })
 })
