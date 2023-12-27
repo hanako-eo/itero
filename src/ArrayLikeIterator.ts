@@ -1,10 +1,14 @@
 import Maybe from "./Maybe.js"
 import { BaseIterator } from "./modifiers/index.js"
 
-export default class ArrayIterator<T> extends BaseIterator<T> {
+export default class ArrayLikeIterator<T> extends BaseIterator<T> {
     private index = 0
-    constructor(private base: Array<T>) {
+    constructor(private base: ArrayLike<T>) {
         super()
+    }
+
+    potentialSize(): number {
+        return this.base.length
     }
 
     nth(n: number): Maybe<T> {

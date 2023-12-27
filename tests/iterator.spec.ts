@@ -1,7 +1,7 @@
 import { test } from "@japa/runner"
 import IteroIterator, { BaseIterator, Maybe, Range } from "../src/index.js"
 import { NoopIterator } from "../src/modifiers/index.js"
-import ArrayIterator from "../src/ArrayIterator.js"
+import ArrayLikeIterator from "../src/ArrayLikeIterator.js"
 
 test.group("IteroIterator", () => {
     test("noop", ({ expect }) => {
@@ -280,7 +280,7 @@ test.group("Range", () => {
 
 test("ArrayIterator", ({ expect }) => {
     const a = [1, 2, 3, 4]
-    const iter = new ArrayIterator(a)
+    const iter = new ArrayLikeIterator(a)
 
     let i = 0
     for (const element of iter) {
