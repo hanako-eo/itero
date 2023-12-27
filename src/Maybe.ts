@@ -47,6 +47,11 @@ export default class Maybe<T> {
         return Maybe.none()
     }
 
+    or(defaultValue: T): T {
+        if (this.isSome()) return this.value!
+        return defaultValue
+    }
+
     take(): Maybe<T> {
         if (this.isSome()) {
             const value = this.value

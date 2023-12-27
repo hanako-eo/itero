@@ -1,5 +1,6 @@
 import type { IteroIterable } from "../types.js"
 
+import Consumer from "../Consumer.js"
 import Maybe from "../Maybe.js"
 import {
     Chain,
@@ -24,6 +25,10 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
                 return this.next().toIterator()
             }
         }
+    }
+
+    consume(): Consumer<O> {
+        return new Consumer(this)
     }
 
     // give a potential size of the iterator, if the function return -1,
