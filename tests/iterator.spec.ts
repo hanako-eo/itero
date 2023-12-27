@@ -172,6 +172,23 @@ test.group("IteroIterator", () => {
         expect(fusedIter.next()).toEqual(Maybe.none())
     })
 
+    test("chaining 2 iterators", ({ expect }) => {
+        const array1 = [0, 1, 2]
+        const array2 = [3, 4, 5]
+        const iter2 = IteroIterator.fromIterable(array2)
+        const iter = IteroIterator.fromIterable(array1).chain(iter2)
+
+        // array1
+        expect(iter.next()).toEqual(Maybe.some(0))
+        expect(iter.next()).toEqual(Maybe.some(1))
+        expect(iter.next()).toEqual(Maybe.some(2))
+        // array2
+        expect(iter.next()).toEqual(Maybe.some(3))
+        expect(iter.next()).toEqual(Maybe.some(4))
+        expect(iter.next()).toEqual(Maybe.some(5))
+        expect(iter.next()).toEqual(Maybe.none())
+    })
+
     test("make cycle through the iterator", ({ expect }) => {
         const array = [0, 1, 2]
         const iter = IteroIterator.fromIterable(array).cycle()
@@ -220,9 +237,9 @@ test.group("Range", () => {
         const range = Range.exclusive(0, 10)
 
         for (let i = 0; i < 10; i++) {
-            expect(range.next().value).toBe(i)
+            expect(range.next()).toEqual(Maybe.some(i))
         }
-        expect(range.next().isNone()).toBeTruthy()
+        expect(range.next()).toEqual(Maybe.none())
 
         expect(range.start()).toBe(0)
         expect(range.end()).toBe(10)
@@ -233,10 +250,10 @@ test.group("Range", () => {
         const range = Range.inclusive(0, 10)
 
         for (let i = 0; i < 10; i++) {
-            expect(range.next().value).toBe(i)
+            expect(range.next()).toEqual(Maybe.some(i))
         }
-        expect(range.next().value).toBe(10)
-        expect(range.next().isNone()).toBeTruthy()
+        expect(range.next()).toEqual(Maybe.some(10))
+        expect(range.next()).toEqual(Maybe.none())
 
         expect(range.start()).toBe(0)
         expect(range.end()).toBe(10)
