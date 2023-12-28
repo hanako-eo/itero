@@ -1,7 +1,7 @@
-import { BaseIterator, Maybe } from "./index.js"
+import { BaseIterator, IteratorType, Maybe } from "./index.js"
 
 export default class IterableIterator<T> extends BaseIterator<T> {
-    private iterator: Iterator<T>
+    private iterator: IteratorType<typeof this.iterable>
 
     constructor(private iterable: Iterable<T>) {
         super()
@@ -13,7 +13,6 @@ export default class IterableIterator<T> extends BaseIterator<T> {
     }
 
     asyncNext(): Promise<Maybe<T>> {
-        // TODO: AsyncIterator
         throw new TypeError(
             "You cannot iterate asynchronously on a non-asynchronous iterable. Please use AsyncIterator instead."
         )
