@@ -2,7 +2,7 @@ import Maybe from "../Maybe.js"
 import { IteroIterable } from "../types.js"
 import { BaseIterator } from "./index.js"
 
-export default class Window<T> extends BaseIterator<T, Array<T>> {
+export default class Window<T> extends BaseIterator<Array<T>> {
     private slice: Array<T> = []
 
     constructor(

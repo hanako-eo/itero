@@ -2,7 +2,7 @@ import type { IteroIterable } from "../types.js"
 import BaseIterator from "./BaseIterator.js"
 import Maybe from "../Maybe.js"
 
-export default class Zip<T1, T2> extends BaseIterator<T1, [T1, T2]> {
+export default class Zip<T1, T2> extends BaseIterator<[T1, T2]> {
     constructor(
         private iterator1: IteroIterable<T1>,
         private iterator2: IteroIterable<T2>

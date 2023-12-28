@@ -18,7 +18,7 @@ import {
     Zip
 } from "./index.js"
 
-export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>, Iterable<O> {
+export default abstract class BaseIterator<O> implements IteroIterable<O>, Iterable<O> {
     [Symbol.iterator](): Iterator<O> {
         return {
             next: () => {
@@ -118,7 +118,7 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
 
     abstract next(): Maybe<O>
     abstract asyncNext(): Promise<Maybe<O>>
-    abstract clone(): BaseIterator<I, O>
+    abstract clone(): BaseIterator<O>
 }
 
 export const NoopIterator: IteroIterable<never> = {

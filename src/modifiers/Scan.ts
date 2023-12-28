@@ -2,7 +2,7 @@ import Maybe from "../Maybe.js"
 import { IteroIterable } from "../types.js"
 import { BaseIterator } from "./index.js"
 
-export default class Scan<A, I, O = I> extends BaseIterator<I, O> {
+export default class Scan<A, I, O = I> extends BaseIterator<O> {
     private accumulator: A
 
     constructor(
