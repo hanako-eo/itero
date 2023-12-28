@@ -12,6 +12,7 @@
   "keywords": [],
   "scripts": {
     "test": "node --loader ts-node/esm --enable-source-maps bin/test.ts",
+    "coverage": "c8 node --loader ts-node/esm --enable-source-maps bin/test.ts",
     "lint": "eslint src/**/**.ts",
     "check-watch": "tsc --noEmit -w",
     "check": "tsc --noEmit",
@@ -27,6 +28,7 @@
     "@japa/runner": "^3.0.0-9",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "c8": "^8.0.1",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-node": "^11.1.0",
