@@ -3,15 +3,11 @@ import { IteroIterable } from "../types.js"
 import { BaseIterator } from "./index.js"
 
 export default class Chain<T> extends BaseIterator<T> {
-    private fused: boolean
-
     constructor(
         private iterator1: IteroIterable<T>,
         private iterator2: IteroIterable<T>
     ) {
         super()
-
-        this.fused = false
     }
 
     potentialSize(): number {
@@ -23,20 +19,14 @@ export default class Chain<T> extends BaseIterator<T> {
     }
 
     next(): Maybe<T> {
-        let element = this.fused ? this.iterator2.next() : this.iterator1.next()
-        if (element.isNone() && !this.fused) {
-            this.fused = true
-            element = this.iterator2.next()
-        }
+        let element = this.iterator1.next()
+        if (element.isNone()) element = this.iterator2.next()
         return element
     }
 
     async asyncNext(): Promise<Maybe<T>> {
-        let element = await (this.fused ? this.iterator2.asyncNext() : this.iterator1.asyncNext())
-        if (element.isNone() && !this.fused) {
-            this.fused = true
-            element = await this.iterator2.next()
-        }
+        let element = await this.iterator1.asyncNext()
+        if (element.isNone()) element = await this.iterator2.next()
         return element
     }
 

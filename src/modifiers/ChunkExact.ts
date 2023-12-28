@@ -4,7 +4,6 @@ import { BaseIterator } from "./index.js"
 
 export default class ChunkExact<T> extends BaseIterator<Array<T>> {
     private slice: Array<T> = []
-    private fused = false
 
     constructor(
         private iterator: IteroIterable<T>,
@@ -28,15 +27,11 @@ export default class ChunkExact<T> extends BaseIterator<Array<T>> {
     }
 
     next(): Maybe<Array<T>> {
-        if (this.fused) return Maybe.none()
         this.slice = []
 
         while (this.slice.length < this._size) {
             const element = this.iterator.next()
-            if (element.isNone()) {
-                this.fused = true
-                return Maybe.none()
-            }
+            if (element.isNone()) return Maybe.none()
 
             this.slice.push(element.value!)
         }
@@ -45,8 +40,6 @@ export default class ChunkExact<T> extends BaseIterator<Array<T>> {
     }
 
     async asyncNext(): Promise<Maybe<T[]>> {
-        if (this.fused) return Maybe.none()
-
         const promises: Array<Promise<Maybe<T>>> = []
         while (promises.length < this._size) {
             promises.push(this.iterator.asyncNext())
@@ -59,10 +52,7 @@ export default class ChunkExact<T> extends BaseIterator<Array<T>> {
             if (element.isSome()) this.slice.push(element.value!)
         }
 
-        if (this.slice.length !== this._size) {
-            this.fused = true
-            return Maybe.none()
-        }
+        if (this.slice.length !== this._size) return Maybe.none()
         return Maybe.some(this.slice)
     }
 
