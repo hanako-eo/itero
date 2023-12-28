@@ -4,7 +4,7 @@
     "allowUnusedLabels": false,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2018", "ES2015.Iterable"],
+    "lib": ["ES2020", "ES2015.Iterable"],
     "module": "NodeNext",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
@@ -12,7 +12,7 @@
     "pretty": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2018",
+    "target": "ES2020",
     "outDir": "build"
   },
   "include": [

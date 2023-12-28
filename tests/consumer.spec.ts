@@ -67,8 +67,7 @@ test.group("Consumer", () => {
     test("sum a consume from bigint range", ({ expect }) => {
         const range = Range.exclusive(1, 5).map(BigInt)
 
-        // I need to transform bigint in number because I have the error "undefined: undefined"
-        expect(range.consume().sum().map(Number)).toEqual(Maybe.some(10))
+        expect(range.consume().sum()).toEqual(Maybe.some(10n))
     })
 
     test("consume and get the first element", ({ expect }) => {
