@@ -3,6 +3,7 @@ import type { IteroIterable } from "../types.js"
 import Consumer from "../Consumer.js"
 import Maybe from "../Maybe.js"
 import {
+    Awaiter,
     Chain,
     Chunk,
     ChunkExact,
@@ -97,6 +98,10 @@ export default abstract class BaseIterator<O> implements IteroIterable<O>, Itera
 
     chain(iterator: IteroIterable<O>): Chain<O> {
         return new Chain(this, iterator)
+    }
+
+    await(fromSync: boolean): Awaiter<Awaited<O>> {
+        return new Awaiter(this as BaseIterator<Awaited<O>>, fromSync)
     }
 
     nth(n: number): Maybe<O> {

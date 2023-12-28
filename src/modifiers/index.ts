@@ -1,4 +1,6 @@
 import BaseIterator, { NoopIterator } from "./BaseIterator.js"
+
+import Awaiter from "./Awaiter.js"
 import Chain from "./Chain.js"
 import Chunk from "./Chunk.js"
 import ChunkExact from "./ChunkExact.js"
@@ -14,6 +16,7 @@ import Window from "./Window.js"
 import Zip from "./Zip.js"
 
 export {
+    Awaiter,
     BaseIterator,
     NoopIterator,
     Chain,

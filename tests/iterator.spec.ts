@@ -1,4 +1,6 @@
 import { test } from "@japa/runner"
+import { setTimeout } from "node:timers/promises"
+
 import { ArrayLikeIterator, BaseIterator, Maybe, Range } from "../src/index.js"
 import { NoopIterator } from "../src/modifiers/index.js"
 
@@ -266,6 +268,19 @@ test.group("Sync BaseIterator", () => {
         expect(clonedIter.next()).toEqual(Maybe.some(2))
         expect(iter.next()).toEqual(Maybe.some(4))
     })
+
+    test("await iteration", async ({ expect }) => {
+        const array = [100, 300, 700, 1000]
+        const iter = new ArrayLikeIterator(array.map((t) => setTimeout(t, t))).await(true)
+
+        let timeStart = Date.now()
+        for await (const [i, time] of iter.enumerate()) {
+            const timeEnd = Date.now()
+            expect(time).toBe(array[i])
+            expect(timeEnd - timeStart).toBeGreaterThan(10)
+            timeStart = timeEnd
+        }
+    })
 })
 
 test.group("Async BaseIterator", () => {
@@ -531,6 +546,19 @@ test.group("Async BaseIterator", () => {
         expect(await clonedIter.asyncNext()).toEqual(Maybe.some(1))
         expect(await clonedIter.asyncNext()).toEqual(Maybe.some(2))
         expect(await iter.asyncNext()).toEqual(Maybe.some(4))
+    })
+
+    test("await iteration", async ({ expect }) => {
+        const array = [100, 300, 700, 1000]
+        const iter = new ArrayLikeIterator(array.map((t) => setTimeout(t, t))).await(false)
+
+        let timeStart = Date.now()
+        for await (const [i, time] of iter.enumerate()) {
+            const timeEnd = Date.now()
+            expect(time).toBe(array[i])
+            expect(timeEnd - timeStart).toBeGreaterThan(10)
+            timeStart = timeEnd
+        }
     })
 })
 
