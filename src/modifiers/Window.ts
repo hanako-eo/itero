@@ -47,6 +47,7 @@ export default class Window<T> extends BaseIterator<T, Array<T>> {
             if (element.isSome()) this.slice.push(element.value!)
         }
 
+        if (this.slice.length !== this._size) return Maybe.none()
         return Maybe.some(this.slice)
     }
 
