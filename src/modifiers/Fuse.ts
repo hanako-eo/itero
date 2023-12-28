@@ -3,11 +3,10 @@ import { IteroIterable } from "../types.js"
 import { BaseIterator } from "./index.js"
 
 export default class Fuse<T> extends BaseIterator<T> {
-    private fused: boolean
+    private fused = false
 
     constructor(private iterator: IteroIterable<T>) {
         super()
-        this.fused = false
     }
 
     potentialSize(): number {

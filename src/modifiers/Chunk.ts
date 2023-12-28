@@ -4,6 +4,7 @@ import { BaseIterator } from "./index.js"
 
 export default class Chunk<T> extends BaseIterator<T, Array<T>> {
     private slice: Array<T> = []
+    private fused = false
 
     constructor(
         private iterator: IteroIterable<T>,
@@ -23,6 +24,8 @@ export default class Chunk<T> extends BaseIterator<T, Array<T>> {
     }
 
     next(): Maybe<Array<T>> {
+        if (this.fused) return Maybe.none()
+
         this.slice = []
         while (this.slice.length < this._size) {
             const element = this.iterator.next()
@@ -31,20 +34,32 @@ export default class Chunk<T> extends BaseIterator<T, Array<T>> {
             this.slice.push(element.value!)
         }
 
-        if (this.slice.length === 0) return Maybe.none()
+        if (this.slice.length === 0) {
+            this.fused = true
+            return Maybe.none()
+        }
         return Maybe.some(this.slice)
     }
 
     async asyncNext(): Promise<Maybe<T[]>> {
-        this.slice = []
-        while (this.slice.length < this._size) {
-            const element = await this.iterator.asyncNext()
-            if (element.isNone()) break
+        if (this.fused) return Maybe.none()
 
-            this.slice.push(element.value!)
+        const promises: Array<Promise<Maybe<T>>> = []
+        while (promises.length < this._size) {
+            promises.push(this.iterator.asyncNext())
         }
 
-        if (this.slice.length === 0) return Maybe.none()
+        // equivalent of (await Promise.all(promises)).filter((m) => m.isSome()).map((m) => m.value!)
+        // but in one loop
+        this.slice = []
+        for (const element of await Promise.all(promises)) {
+            if (element.isSome()) this.slice.push(element.value!)
+        }
+
+        if (this.slice.length === 0) {
+            this.fused = true
+            return Maybe.none()
+        }
         return Maybe.some(this.slice)
     }
 

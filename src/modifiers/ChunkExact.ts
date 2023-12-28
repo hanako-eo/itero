@@ -4,6 +4,7 @@ import { BaseIterator } from "./index.js"
 
 export default class ChunkExact<T> extends BaseIterator<T, Array<T>> {
     private slice: Array<T> = []
+    private fused = false
 
     constructor(
         private iterator: IteroIterable<T>,
@@ -27,13 +28,15 @@ export default class ChunkExact<T> extends BaseIterator<T, Array<T>> {
     }
 
     next(): Maybe<Array<T>> {
-        let element = this.iterator.next()
-        if (element.isNone()) return Maybe.none()
-        this.slice = [element.value!]
+        if (this.fused) return Maybe.none()
+        this.slice = []
 
         while (this.slice.length < this._size) {
-            element = this.iterator.next()
-            if (element.isNone()) return Maybe.none()
+            const element = this.iterator.next()
+            if (element.isNone()) {
+                this.fused = true
+                return Maybe.none()
+            }
 
             this.slice.push(element.value!)
         }
@@ -42,17 +45,24 @@ export default class ChunkExact<T> extends BaseIterator<T, Array<T>> {
     }
 
     async asyncNext(): Promise<Maybe<T[]>> {
-        let element = await this.iterator.asyncNext()
-        if (element.isNone()) return Maybe.none()
-        this.slice = [element.value!]
+        if (this.fused) return Maybe.none()
 
-        while (this.slice.length < this._size) {
-            element = await this.iterator.asyncNext()
-            if (element.isNone()) return Maybe.none()
-
-            this.slice.push(element.value!)
+        const promises: Array<Promise<Maybe<T>>> = []
+        while (promises.length < this._size) {
+            promises.push(this.iterator.asyncNext())
         }
 
+        // equivalent of (await Promise.all(promises)).filter((m) => m.isSome()).map((m) => m.value!)
+        // but in one loop
+        this.slice = []
+        for (const element of await Promise.all(promises)) {
+            if (element.isSome()) this.slice.push(element.value!)
+        }
+
+        if (this.slice.length !== this._size) {
+            this.fused = true
+            return Maybe.none()
+        }
         return Maybe.some(this.slice)
     }
 

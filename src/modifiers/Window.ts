@@ -34,11 +34,17 @@ export default class Window<T> extends BaseIterator<T, Array<T>> {
 
     async asyncNext(): Promise<Maybe<Array<T>>> {
         this.slice.shift()
-        while (this.slice.length < this._size) {
-            const element = await this.iterator.asyncNext()
-            if (element.isNone()) return Maybe.none()
+        const promises: Array<Promise<Maybe<T>>> = []
+        while (this.slice.length + promises.length < this._size) {
+            const element = this.iterator.asyncNext()
 
-            this.slice.push(element.value!)
+            promises.push(element)
+        }
+
+        // equivalent of (await Promise.all(promises)).filter((m) => m.isSome()).map((m) => m.value!)
+        // but in one loop
+        for (const element of await Promise.all(promises)) {
+            if (element.isSome()) this.slice.push(element.value!)
         }
 
         return Maybe.some(this.slice)

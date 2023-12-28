@@ -19,8 +19,20 @@ export default class Peekable<T> extends BaseIterator<T> {
         return this.peeked
     }
 
+    async asyncPeek(): Promise<Maybe<T>> {
+        if (this.peeked.isNone()) this.peeked = await this.iterator.asyncNext()
+
+        return this.peeked
+    }
+
     next(): Maybe<T> {
         const element = this.peeked.isSome() ? this.peeked.take() : this.iterator.next()
+
+        return element
+    }
+
+    async asyncNext(): Promise<Maybe<T>> {
+        const element = this.peeked.isSome() ? this.peeked.take() : await this.iterator.asyncNext()
 
         return element
     }
