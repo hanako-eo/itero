@@ -33,6 +33,24 @@ export default class Cycle<T> extends BaseIterator<T> {
         return element
     }
 
+    async asyncNext(): Promise<Maybe<T>> {
+        let element = Maybe.none<T>()
+
+        if (!this.consumed) {
+            element = await this.iterator.asyncNext()
+
+            if (element.isSome()) this.#cycle.push(element)
+            else this.consumed = true
+        }
+
+        if (this.consumed && this.#cycle.length > 0) {
+            element = this.#cycle[this.i]
+            this.i = (this.i + 1) % this.#cycle.length
+        }
+
+        return element
+    }
+
     clone(): Cycle<T> {
         return new Cycle(this.iterator.clone())
     }

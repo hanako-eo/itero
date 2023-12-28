@@ -12,6 +12,13 @@ export default class IterableIterator<T> extends BaseIterator<T> {
         return Maybe.fromIterator(this.iterator.next())
     }
 
+    asyncNext(): Promise<Maybe<T>> {
+        // TODO: AsyncIterator
+        throw new TypeError(
+            "You cannot iterate asynchronously on a non-asynchronous iterable. Please use AsyncIterator instead."
+        )
+    }
+
     clone(): IterableIterator<T> {
         return new IterableIterator(this.iterable)
     }

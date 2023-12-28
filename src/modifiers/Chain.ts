@@ -31,6 +31,15 @@ export default class Chain<T> extends BaseIterator<T> {
         return element
     }
 
+    async asyncNext(): Promise<Maybe<T>> {
+        let element = await (this.fused ? this.iterator2.asyncNext() : this.iterator1.asyncNext())
+        if (element.isNone() && !this.fused) {
+            this.fused = true
+            element = await this.iterator2.next()
+        }
+        return element
+    }
+
     clone(): Chain<T> {
         return new Chain(this.iterator1.clone(), this.iterator2.clone())
     }

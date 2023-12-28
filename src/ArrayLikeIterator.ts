@@ -16,9 +16,18 @@ export default class ArrayLikeIterator<T> extends BaseIterator<T> {
         return this.next()
     }
 
+    asyncNth(n: number): Promise<Maybe<T>> {
+        this.index += n - 1
+        return this.asyncNext()
+    }
+
     next(): Maybe<T> {
         if (this.base.length <= this.index) return Maybe.none()
         return Maybe.some(this.base[this.index++])
+    }
+
+    asyncNext(): Promise<Maybe<T>> {
+        return Promise.resolve(this.next())
     }
 
     clone(): ArrayLikeIterator<T> {

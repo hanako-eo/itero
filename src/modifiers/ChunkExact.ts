@@ -41,6 +41,21 @@ export default class ChunkExact<T> extends BaseIterator<T, Array<T>> {
         return Maybe.some(this.slice)
     }
 
+    async asyncNext(): Promise<Maybe<T[]>> {
+        let element = await this.iterator.asyncNext()
+        if (element.isNone()) return Maybe.none()
+        this.slice = [element.value!]
+
+        while (this.slice.length < this._size) {
+            element = await this.iterator.asyncNext()
+            if (element.isNone()) return Maybe.none()
+
+            this.slice.push(element.value!)
+        }
+
+        return Maybe.some(this.slice)
+    }
+
     clone(): ChunkExact<T> {
         return new ChunkExact(this.iterator.clone(), this._size)
     }

@@ -25,6 +25,14 @@ export default class Zip<T1, T2> extends BaseIterator<T1, [T1, T2]> {
         return Maybe.some([element1.value!, element2.value!] as const)
     }
 
+    async asyncNext(): Promise<Maybe<[T1, T2]>> {
+        const elements = await Promise.all([this.iterator1.asyncNext(), this.iterator2.asyncNext()])
+
+        if (elements[0].isNone() || elements[1].isNone()) return Maybe.none()
+
+        return Maybe.some([elements[0].value!, elements[1].value!] as const)
+    }
+
     clone(): Zip<T1, T2> {
         return new Zip(this.iterator1.clone(), this.iterator2.clone())
     }

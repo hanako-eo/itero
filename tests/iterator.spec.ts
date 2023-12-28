@@ -157,6 +157,9 @@ test.group("IteroIterator", () => {
                 this.i++
                 return value
             }
+            asyncNext(): Promise<Maybe<number>> {
+                throw "no async"
+            }
             clone(): Alternate {
                 return new Alternate()
             }

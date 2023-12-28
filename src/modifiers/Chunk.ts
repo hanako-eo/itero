@@ -35,6 +35,19 @@ export default class Chunk<T> extends BaseIterator<T, Array<T>> {
         return Maybe.some(this.slice)
     }
 
+    async asyncNext(): Promise<Maybe<T[]>> {
+        this.slice = []
+        while (this.slice.length < this._size) {
+            const element = await this.iterator.asyncNext()
+            if (element.isNone()) break
+
+            this.slice.push(element.value!)
+        }
+
+        if (this.slice.length === 0) return Maybe.none()
+        return Maybe.some(this.slice)
+    }
+
     clone(): Chunk<T> {
         return new Chunk(this.iterator.clone(), this._size)
     }

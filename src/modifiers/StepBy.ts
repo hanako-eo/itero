@@ -28,6 +28,14 @@ export default class StepBy<T> extends BaseIterator<T> {
         return element
     }
 
+    async asyncNext(): Promise<Maybe<T>> {
+        const element = this.iterator.asyncNext()
+        for (let i = 0; i < this._step - 1; i++) {
+            if ((await this.iterator.asyncNext()).isNone()) break
+        }
+        return element
+    }
+
     clone(): StepBy<T> {
         return new StepBy(this.iterator.clone(), this._step)
     }

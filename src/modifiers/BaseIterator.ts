@@ -27,6 +27,15 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
         }
     }
 
+    [Symbol.asyncIterator](): AsyncIterator<O> {
+        return {
+            next: async () => {
+                const maybe = await this.asyncNext()
+                return maybe.toIterator()
+            }
+        }
+    }
+
     consume(): Consumer<O> {
         return new Consumer(this)
     }
@@ -98,13 +107,25 @@ export default abstract class BaseIterator<I, O = I> implements IteroIterable<O>
         return this.next()
     }
 
+    async asyncNth(n: number): Promise<Maybe<O>> {
+        const promises: Array<Promise<Maybe<O>>> = []
+        for (let i = 0; i < n; i++) {
+            promises.push(this.asyncNext())
+        }
+        const results = await Promise.all(promises)
+        return results[n - 1]
+    }
+
     abstract next(): Maybe<O>
+    abstract asyncNext(): Promise<Maybe<O>>
     abstract clone(): BaseIterator<I, O>
 }
 
 export const NoopIterator: IteroIterable<never> = {
     nth: Maybe.none<never>,
     next: Maybe.none<never>,
+    asyncNext: () => Promise.resolve(Maybe.none()),
+    asyncNth: () => Promise.resolve(Maybe.none()),
     clone: () => NoopIterator,
     potentialSize: () => 0
 }

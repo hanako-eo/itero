@@ -18,6 +18,10 @@ export default class Map<T, U> extends BaseIterator<T, U> {
         return this.iterator.next().map(this.callback)
     }
 
+    async asyncNext(): Promise<Maybe<U>> {
+        return (await this.iterator.asyncNext()).map(this.callback)
+    }
+
     clone(): Map<T, U> {
         return new Map(this.iterator.clone(), this.callback)
     }

@@ -23,6 +23,15 @@ export default class Fuse<T> extends BaseIterator<T> {
         return element
     }
 
+    async asyncNext(): Promise<Maybe<T>> {
+        if (this.fused) return Maybe.none()
+
+        const element = await this.iterator.asyncNext()
+        if (element.isNone()) this.fused = true
+
+        return element
+    }
+
     clone(): Fuse<T> {
         return new Fuse(this.iterator.clone())
     }

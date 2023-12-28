@@ -32,6 +32,18 @@ export default class Window<T> extends BaseIterator<T, Array<T>> {
         return Maybe.some(this.slice)
     }
 
+    async asyncNext(): Promise<Maybe<Array<T>>> {
+        this.slice.shift()
+        while (this.slice.length < this._size) {
+            const element = await this.iterator.asyncNext()
+            if (element.isNone()) return Maybe.none()
+
+            this.slice.push(element.value!)
+        }
+
+        return Maybe.some(this.slice)
+    }
+
     clone(): Window<T> {
         return new Window(this.iterator.clone(), this._size)
     }

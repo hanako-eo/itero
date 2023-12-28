@@ -49,6 +49,10 @@ export default class Range extends BaseIterator<number> {
         return Maybe.some(value)
     }
 
+    asyncNext(): Promise<Maybe<number>> {
+        return Promise.resolve(this.next())
+    }
+
     clone(): Range {
         return new Range(this.start_edge, this.end_edge, this.step, this.isInclusive)
     }

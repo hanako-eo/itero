@@ -33,6 +33,16 @@ export default class Scan<A, I, O = I> extends BaseIterator<I, O> {
         return scanned
     }
 
+    async asyncNext(): Promise<Maybe<O>> {
+        const element = await this.iterator.asyncNext()
+        if (element.isNone()) return Maybe.none()
+
+        const [accumulator, scanned] = this.callback(this.accumulator, element.value!)
+        this.accumulator = accumulator
+
+        return scanned
+    }
+
     clone(): Scan<A, I, O> {
         return new Scan(this.iterator.clone(), this.initialAccumulator, this.callback)
     }
