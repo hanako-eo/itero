@@ -1,6 +1,5 @@
 import { test } from "@japa/runner"
-import IteroIterator, { Maybe, Range } from "../src/index.js"
-import { NoopIterator } from "../src/modifiers/index.js"
+import { ArrayLikeIterator, Maybe, NoopIterator, Range } from "../src/index.js"
 import Consumer from "../src/Consumer.js"
 
 test.group("Consumer", () => {
@@ -41,7 +40,7 @@ test.group("Consumer", () => {
     test("consume and sort", ({ expect }) => {
         const a_sorted = [0, 1, 2, 3, 4, 4, 6, 7]
         const a_shuffled = [...a_sorted].sort(() => Math.random() - 0.5)
-        const iter = new IteroIterator(a_shuffled)
+        const iter = new ArrayLikeIterator(a_shuffled)
 
         const iter_sorted = iter.consume().sort((a, b) => a - b)
         expect(iter_sorted).toEqual(a_sorted)

@@ -1,7 +1,6 @@
 import { test } from "@japa/runner"
-import IteroIterator, { BaseIterator, Maybe, Range } from "../src/index.js"
+import { ArrayLikeIterator, BaseIterator, Maybe, Range } from "../src/index.js"
 import { NoopIterator } from "../src/modifiers/index.js"
-import ArrayLikeIterator from "../src/ArrayLikeIterator.js"
 
 test.group("IteroIterator", () => {
     test("noop", ({ expect }) => {
@@ -13,7 +12,7 @@ test.group("IteroIterator", () => {
 
     test("transform array into Iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
-        const iter = IteroIterator.fromIterable(array)
+        const iter = new ArrayLikeIterator(array)
 
         let i = 0
         for (const element of iter) {
@@ -24,7 +23,7 @@ test.group("IteroIterator", () => {
 
     test("map through iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
-        const iter = IteroIterator.fromIterable(array)
+        const iter = new ArrayLikeIterator(array)
 
         let i = 0
         for (const element of iter.map((x) => x + 1)) {
@@ -35,7 +34,7 @@ test.group("IteroIterator", () => {
 
     test("filter odd number through iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
-        const iter = IteroIterator.fromIterable(array)
+        const iter = new ArrayLikeIterator(array)
 
         let i = 0
         for (const element of iter.filter((x) => x % 2 === 0)) {
@@ -47,8 +46,8 @@ test.group("IteroIterator", () => {
     test("zip on two iterators", ({ expect }) => {
         const array1 = [0, 1, 2, 3]
         const array2 = ["a", "b", "c", "d"]
-        const iter1 = IteroIterator.fromIterable(array1)
-        const iter2 = IteroIterator.fromIterable(array2)
+        const iter1 = new ArrayLikeIterator(array1)
+        const iter2 = new ArrayLikeIterator(array2)
 
         let i = 0
         for (const element of iter1.zip(iter2)) {
@@ -61,8 +60,8 @@ test.group("IteroIterator", () => {
     test("zip on two iterators with the first more big", ({ expect }) => {
         const array1 = [0, 1, 2, 3, 4, 5]
         const array2 = ["a", "b", "c", "d"]
-        const iter1 = IteroIterator.fromIterable(array1)
-        const iter2 = IteroIterator.fromIterable(array2)
+        const iter1 = new ArrayLikeIterator(array1)
+        const iter2 = new ArrayLikeIterator(array2)
 
         let i = 0
         for (const element of iter1.zip(iter2)) {
@@ -75,8 +74,8 @@ test.group("IteroIterator", () => {
     test("zip on two iterators with the second more big", ({ expect }) => {
         const array1 = [0, 1, 2, 3]
         const array2 = ["a", "b", "c", "d", "e", "f", "g"]
-        const iter1 = IteroIterator.fromIterable(array1)
-        const iter2 = IteroIterator.fromIterable(array2)
+        const iter1 = new ArrayLikeIterator(array1)
+        const iter2 = new ArrayLikeIterator(array2)
 
         let i = 0
         for (const element of iter1.zip(iter2)) {
@@ -88,7 +87,7 @@ test.group("IteroIterator", () => {
 
     test("enumerate through iterator", ({ expect }) => {
         const array = [0, 1, 2, 3]
-        const iter = IteroIterator.fromIterable(array)
+        const iter = new ArrayLikeIterator(array)
 
         let i = 0
         for (const [j, element] of iter.enumerate()) {
@@ -99,37 +98,37 @@ test.group("IteroIterator", () => {
     })
 
     test("chunking the iterator", ({ expect }) => {
-        const str = ["j", "a", "v", "a", "s", "c", "r", "i", "p", "t"]
-        const iter = IteroIterator.fromIterable(str)
+        const str = "javascript"
+        const iter = new ArrayLikeIterator(str)
 
         let i = 0
         for (const element of iter.chunk(3)) {
-            expect(element).toEqual(str.slice(3 * i, 3 * (i + 1)))
+            expect(element.join("")).toEqual(str.slice(3 * i, 3 * (i + 1)))
             i++
         }
         expect(i).toBe(Math.ceil(str.length / 3)) // i.e. 4
     })
 
     test("chunking exactly the iterator", ({ expect }) => {
-        const str = ["j", "a", "v", "a", "s", "c", "r", "i", "p", "t"]
-        const iter = IteroIterator.fromIterable(str).chunkExact(3)
+        const str = "javascript"
+        const iter = new ArrayLikeIterator(str).chunkExact(3)
 
         let i = 0
         for (const element of iter) {
-            expect(element).toEqual(str.slice(3 * i, 3 * (i + 1)))
+            expect(element.join("")).toEqual(str.slice(3 * i, 3 * (i + 1)))
             i++
         }
         expect(i).toBe(Math.floor(str.length / 3)) // i.e. 3
-        expect(iter.rest()).toEqual(str.slice(3 * i))
+        expect(iter.rest().join("")).toEqual(str.slice(3 * i))
     })
 
     test("windowing the iterator", ({ expect }) => {
-        const str = ["j", "a", "v", "a", "s", "c", "r", "i", "p", "t"]
-        const iter = IteroIterator.fromIterable(str)
+        const str = "javascript"
+        const iter = new ArrayLikeIterator(str)
 
         let i = 0
         for (const element of iter.window(3)) {
-            expect(element).toEqual(str.slice(i, i + 3))
+            expect(element.join("")).toEqual(str.slice(i, i + 3))
             i++
         }
         expect(i).toBe(str.length - 2) // i.e. 8
@@ -137,7 +136,7 @@ test.group("IteroIterator", () => {
 
     test("iterate through the iterator with a step of 2", ({ expect }) => {
         const array = [0, 1, 2, 3]
-        const iter = IteroIterator.fromIterable(array)
+        const iter = new ArrayLikeIterator(array)
 
         let i = 0
         for (const element of iter.stepBy(2)) {
@@ -179,8 +178,8 @@ test.group("IteroIterator", () => {
     test("chaining 2 iterators", ({ expect }) => {
         const array1 = [0, 1, 2]
         const array2 = [3, 4, 5]
-        const iter2 = IteroIterator.fromIterable(array2)
-        const iter = IteroIterator.fromIterable(array1).chain(iter2)
+        const iter2 = new ArrayLikeIterator(array2)
+        const iter = new ArrayLikeIterator(array1).chain(iter2)
 
         // array1
         expect(iter.next()).toEqual(Maybe.some(0))
@@ -195,7 +194,7 @@ test.group("IteroIterator", () => {
 
     test("make cycle through the iterator", ({ expect }) => {
         const array = [0, 1, 2]
-        const iter = IteroIterator.fromIterable(array).cycle()
+        const iter = new ArrayLikeIterator(array).cycle()
 
         // cycle 0
         expect(iter.next()).toEqual(Maybe.some(0))
@@ -209,7 +208,7 @@ test.group("IteroIterator", () => {
 
     test("scan the iterator", ({ expect }) => {
         const array = [1, 2, 3, 4]
-        const iter = IteroIterator.fromIterable(array).scan(1, (acc, x) => {
+        const iter = new ArrayLikeIterator(array).scan(1, (acc, x) => {
             acc *= x
 
             // ... and terminate if the state exceeds 6
@@ -237,7 +236,7 @@ test.group("IteroIterator", () => {
 
     test("peekable iterator", ({ expect }) => {
         const array = [1, 2, 3, 4]
-        const iter = IteroIterator.fromIterable(array).peekable()
+        const iter = new ArrayLikeIterator(array).peekable()
 
         expect(iter.peek()).toEqual(Maybe.some(1))
         expect(iter.peek()).toEqual(Maybe.some(1))

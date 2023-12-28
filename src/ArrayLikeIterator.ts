@@ -25,3 +25,22 @@ export default class ArrayLikeIterator<T> extends BaseIterator<T> {
         return new ArrayLikeIterator(this.base)
     }
 }
+
+////// GLOBAL METHOD //////
+declare global {
+    interface Array<T> {
+        iter(): ArrayLikeIterator<T>
+    }
+
+    interface String {
+        iter(): ArrayLikeIterator<string>
+    }
+}
+
+Array.prototype.iter = function <T>(this: Array<T>) {
+    return new ArrayLikeIterator(this)
+}
+
+String.prototype.iter = function () {
+    return new ArrayLikeIterator(this)
+}
