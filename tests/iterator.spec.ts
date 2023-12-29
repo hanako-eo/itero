@@ -281,6 +281,16 @@ test.group("Sync BaseIterator", () => {
             timeStart = timeEnd
         }
     })
+
+    test("flatten iterator of iterator", ({ expect }) => {
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+        const array = [[1, 2, 3], [4], [], 5, [6, 7, 8]].map((x) => (Array.isArray(x) ? new ArrayLikeIterator(x) : x))
+        const iter = new ArrayLikeIterator(array).flatten()
+
+        for (const [i, element] of iter.enumerate()) {
+            expect(element).toBe(numbers[i])
+        }
+    })
 })
 
 test.group("Async BaseIterator", () => {
@@ -558,6 +568,16 @@ test.group("Async BaseIterator", () => {
             expect(time).toBe(array[i])
             expect(timeEnd - timeStart).toBeGreaterThan(10)
             timeStart = timeEnd
+        }
+    })
+
+    test("flatten iterator of iterator", async ({ expect }) => {
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+        const array = [[1, 2, 3], [4], [], 5, [6, 7, 8]].map((x) => (Array.isArray(x) ? new ArrayLikeIterator(x) : x))
+        const iter = new ArrayLikeIterator(array).flatten()
+
+        for await (const [i, element] of iter.enumerate()) {
+            expect(element).toBe(numbers[i])
         }
     })
 })

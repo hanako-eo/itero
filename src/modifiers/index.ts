@@ -6,6 +6,7 @@ import Chunk from "./Chunk.js"
 import ChunkExact from "./ChunkExact.js"
 import Cycle from "./Cycle.js"
 import Filter from "./Filter.js"
+import Flatten from "./Flatten.js"
 import Fuse from "./Fuse.js"
 import Map from "./Map.js"
 import Peekable from "./Peekable.js"
@@ -24,6 +25,7 @@ export {
     ChunkExact,
     Cycle,
     Filter,
+    Flatten,
     Fuse,
     Map,
     Peekable,

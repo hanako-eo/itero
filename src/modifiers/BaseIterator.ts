@@ -9,6 +9,7 @@ import {
     ChunkExact,
     Cycle,
     Filter,
+    Flatten,
     Fuse,
     Map,
     Peekable,
@@ -100,8 +101,12 @@ export default abstract class BaseIterator<O> implements IteroIterable<O>, Itera
         return new Chain(this, iterator)
     }
 
-    await(fromSync: boolean): Awaiter<Awaited<O>> {
-        return new Awaiter(this as BaseIterator<Awaited<O>>, fromSync)
+    await(fromSync: boolean): Awaiter<O> {
+        return new Awaiter(this, fromSync)
+    }
+
+    flatten(): Flatten<O> {
+        return new Flatten(this)
     }
 
     nth(n: number): Maybe<O> {

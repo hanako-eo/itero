@@ -15,3 +15,5 @@ export declare interface IteroIterable<T> {
 
 export type IteratorType<T extends Iterable<unknown>> = ReturnType<T[typeof Symbol.iterator]>
 export type AsyncIteratorType<T extends AsyncIterable<unknown>> = ReturnType<T[typeof Symbol.asyncIterator]>
+
+export type FlatIterator<I> = I extends IteroIterable<infer T> ? T : I

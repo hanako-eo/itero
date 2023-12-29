@@ -2,7 +2,7 @@ import Maybe from "../Maybe.js"
 import { IteroIterable } from "../types.js"
 import { BaseIterator } from "./index.js"
 
-export default class Awaiter<T> extends BaseIterator<T> {
+export default class Awaiter<T> extends BaseIterator<Awaited<T>> {
     constructor(
         private iterator: IteroIterable<Promise<T>> | IteroIterable<T>,
         private fromSync: boolean
@@ -10,13 +10,13 @@ export default class Awaiter<T> extends BaseIterator<T> {
         super()
     }
 
-    next(): Maybe<T> {
+    next(): Maybe<Awaited<T>> {
         throw new TypeError(
             "The Awaiter Iterator can only be use as an AsyncIterator (in a for await loop or with asyncNext)."
         )
     }
 
-    async asyncNext(): Promise<Maybe<T>> {
+    async asyncNext(): Promise<Maybe<Awaited<T>>> {
         if (this.fromSync) {
             const element = this.iterator.next()
             if (element.isNone()) return Maybe.none()
