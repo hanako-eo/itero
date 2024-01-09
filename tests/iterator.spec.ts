@@ -1,7 +1,7 @@
 import { test } from "@japa/runner"
 import { setTimeout } from "node:timers/promises"
 
-import { ArrayLikeIterator, BaseIterator, Maybe, Range } from "../src/index.js"
+import { ArrayLikeIterator, BaseIterator, IteroIterableIterator, Maybe, Range } from "../src/index.js"
 import { NoopIterator } from "../src/modifiers/index.js"
 
 test.group("Sync BaseIterator", () => {
@@ -620,4 +620,18 @@ test("ArrayIterator", ({ expect }) => {
         expect(element).toBe(a[i])
         i++
     }
+})
+
+test("IteroIterableIterator", ({ expect }) => {
+    const a = [1, 2, 3, 4]
+    const iter = new IteroIterableIterator(new ArrayLikeIterator(a))
+
+    let i = 0
+    for (const element of iter) {
+        expect(element).toBe(a[i])
+        i++
+    }
+
+    const iter2 = new IteroIterableIterator(NoopIterator)
+    expect(iter2.next()).toBe(Maybe.none())
 })
