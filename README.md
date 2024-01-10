@@ -49,8 +49,8 @@ last(): Maybe<T>;
 firstAndLast(): [Maybe<T>, Maybe<T>];
 find(predicate: (v: T) => boolean): Maybe<T>;
 count(): number;
-sum(): Maybe<T>; // equivalent a reduce((a, b) => a + b)
-product(): Maybe<T>; // equivalent a reduce((a, b) => a * b)
+sum(): Maybe<T>; // equivalent to reduce((a, b) => a + b)
+product(): Maybe<T>; // equivalent to reduce((a, b) => a * b)
 sort(compareFn: (a: T, b: T) => number): Array<T>;
 compare(compareFn: (a: T, b: T) => boolean): Maybe<T>;
 fold<A>(defaultValue: A, callback: (acc: A, value: T) => A): A;
