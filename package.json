@@ -1,5 +1,5 @@
 {
-  "name": "itero",
+  "name": "@hanako-eo/itero",
   "version": "0.1.0",
   "description": "An iterator library to reduce the execution time of sequential iterators in native javascript",
   "type": "module",
