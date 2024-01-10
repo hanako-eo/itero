@@ -9,6 +9,7 @@ export default class IteroIterableIterator<T> extends BaseIterator<T> {
         this.nth = iterable.nth.bind(iterable)
         this.asyncNext = iterable.asyncNext.bind(iterable)
         this.asyncNth = iterable.asyncNth.bind(iterable)
+        if (iterable.potentialSize) this.potentialSize = iterable.potentialSize.bind(iterable)
         this.clone = iterable.clone.bind(iterable) as () => BaseIterator<T>
     }
 

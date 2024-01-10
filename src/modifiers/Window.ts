@@ -13,7 +13,10 @@ export default class Window<T> extends BaseIterator<Array<T>> {
     }
 
     potentialSize(): number {
-        return this.iterator.potentialSize?.() ?? -1
+        const size = this.iterator.potentialSize?.() ?? -1
+        if (size === -1) return -1
+        if (size < this._size) return 0
+        return size - this._size + 1
     }
 
     size() {
